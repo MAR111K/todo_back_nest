@@ -1,4 +1,5 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import { Column, DataType, Model, Table, HasMany } from 'sequelize-typescript';
+import { TaskGroup } from 'src/tasks_group/tasks_group.model';
 
 interface UserAttrs {
   username: string;
@@ -20,4 +21,7 @@ export class User extends Model<User, UserAttrs> {
 
   @Column({ type: DataType.STRING, allowNull: false })
   password: string;
+
+  @HasMany(() => TaskGroup)
+  tasks_group: TaskGroup[];
 }

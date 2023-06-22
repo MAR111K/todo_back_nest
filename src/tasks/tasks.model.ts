@@ -1,10 +1,19 @@
-import { Column, DataType, Model, Table } from 'sequelize-typescript';
+import {
+  BelongsTo,
+  Column,
+  DataType,
+  ForeignKey,
+  Model,
+  Table,
+} from 'sequelize-typescript';
+import { TaskGroup } from 'src/tasks_group/tasks_group.model';
 
 interface TaskAttrs {
   text: string;
+  creator: number;
 }
 
-@Table({ tableName: 'tasks', updatedAt: false })
+@Table({ tableName: 'tasks' })
 export class Task extends Model<Task, TaskAttrs> {
   @Column({
     type: DataType.INTEGER,
@@ -19,4 +28,14 @@ export class Task extends Model<Task, TaskAttrs> {
 
   @Column({ type: DataType.BOOLEAN, allowNull: false, defaultValue: false })
   checked: string;
+
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  creator: number;
+
+  @ForeignKey(() => TaskGroup)
+  @Column({ type: DataType.INTEGER, allowNull: false })
+  group_id: number;
+
+  @BelongsTo(() => TaskGroup)
+  group: TaskGroup;
 }
